@@ -3,9 +3,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.doThrow;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.*;
+
 
 // @RunWith attaches a runner with the test class to initialize the test data
 @RunWith(MockitoJUnitRunner.class)
@@ -19,7 +21,7 @@ public class MathApplicationTester {
     @Mock
     CalculatorService calcService;
 
-    @Test
+    @Test(expected = RuntimeException.class)
     public void testAdd(){
         //add the behavior of calc service to add two numbers
         when(calcService.add(10.0,20.0)).thenReturn(30.00);
@@ -43,5 +45,8 @@ public class MathApplicationTester {
 
         //check if add function is called maximum 3 times
         verify(calcService, atMost(3)).add(10.0,20.0);
+
+        //add the behavior to throw exception for exception handling
+        //doThrow(new RuntimeException("Add operation not implemented")).when(calcService).add(10.0,20.0);
     }
 }
